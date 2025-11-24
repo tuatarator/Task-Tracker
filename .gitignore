@@ -1,0 +1,5 @@
+# macOS junk
+.DS_Store
+
+# Python packaging metadata
+task_cli.egg-info
