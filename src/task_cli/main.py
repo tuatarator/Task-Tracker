@@ -20,7 +20,7 @@ def save_data(new_data):
         json.dump(new_data, file, indent=2, ensure_ascii=False)
     return
 
-
+#add new task
 def add_task(args):
     allData = load_data()
     
@@ -45,7 +45,7 @@ def add_task(args):
     newData.append(newTask)
     print("new data will be")
     print((newData))
-    
+
     try:
         save_data(newData)
         print('New task saved!')
@@ -53,7 +53,8 @@ def add_task(args):
     except:
         print("ERROR while sawing newTask")
         return
-
+    
+#delete task
 def remove_task(args):
     removingId = args.id
     allData = load_data()
@@ -62,6 +63,25 @@ def remove_task(args):
         if newData[num["id"]] == removingId:
             newData[num].remove()
 
+#udpate task by id
+def update_task(args):
+    taskId = args.id
+    allData = load_data()
+
+    for task in allData:
+        if task["id"] == taskId:
+            task["description"] = args.text
+            save_data(allData)
+            break
+    else:
+        add_task(args)
+    return
+
+#update task status
+# def mark_task(args):
+    
+
+# Listing tasks by status
 def task_list(args):
     showStatus = args.status
     allData = load_data()
@@ -97,6 +117,14 @@ def main():
     parse_list = subparsers.add_parser("list", help="show tasks by status, default all")
     parse_list.add_argument("status",nargs="?",choices=["todo", "in-progress", "done"],default="all")
     parse_list.set_defaults(func=task_list)
+
+    #parse 'update id'
+    parse_update = subparsers.add_parser("update", help="update task by id")
+    parse_update.add_argument("id", type=int, help="task id")
+    parse_update.add_argument("text", type= str, help="new task text")
+    parse_update.set_defaults(func=update_task)
+
+    parse_mark_in_progress = subparsers.add_parser("mark-in-progres", help="")
 
     args = parser.parse_args()
     args.func(args)
