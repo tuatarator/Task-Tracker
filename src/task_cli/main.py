@@ -22,10 +22,7 @@ def save_data(new_data):
 
 
 def add_task(args):
-
     allData = load_data()
-    print("current data is")
-    print(allData)
     
     newId = 1
     for record in allData:
@@ -46,11 +43,9 @@ def add_task(args):
 
     newData = allData
     newData.append(newTask)
-
     print("new data will be")
     print((newData))
-
-
+    
     try:
         save_data(newData)
         print('New task saved!')
