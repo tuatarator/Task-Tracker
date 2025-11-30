@@ -26,13 +26,10 @@ def add_task(args):
     
     newId = 1
     for record in allData:
-
         if int(record["id"]) >= newId:
                  newId = int(record["id"]) + 1
-    
     formatted = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
     print(formatted)
-
     newTask = {
         "id" : newId,
         "description" : args.text,
@@ -40,12 +37,8 @@ def add_task(args):
         "createdAt" : formatted,
         "updatedAt" : formatted
     }
-
     newData = allData
     newData.append(newTask)
-    print("new data will be")
-    print((newData))
-
     try:
         save_data(newData)
         print('New task saved!')
@@ -78,8 +71,17 @@ def update_task(args):
     return
 
 #update task status
-# def mark_task(args):
-    
+def mark_task(args):
+    # return print(args)
+    allData = load_data()
+    for task in allData:
+        if task["id"] == args.id:
+            if args.command == "mark-done":
+                task["status"] = "done"
+            elif args.command =="mark-in-progress":
+                task["status"] = "in-progress"
+    save_data(allData)
+    return
 
 # Listing tasks by status
 def task_list(args):
@@ -90,11 +92,11 @@ def task_list(args):
     if (showStatus != "all"):
         for record in allData:
             if record["status"] == showStatus:
-                taskList.append(' '.join([str(record["id"]), record["description"]]))
+                taskList.append(' '.join([str(record["id"]), record["description"], record["status"]]))
         return print('\n'.join(taskList))
     
     for record in allData:
-        taskList.append(' '.join([str(record["id"]), record["description"]]))
+        taskList.append(' '.join([str(record["id"]), record["description"], record["status"]]))
 
     return print('\n'.join(taskList))
 
@@ -124,7 +126,13 @@ def main():
     parse_update.add_argument("text", type= str, help="new task text")
     parse_update.set_defaults(func=update_task)
 
-    parse_mark_in_progress = subparsers.add_parser("mark-in-progres", help="")
+    parse_mark_in_progress = subparsers.add_parser("mark-in-progress", help="")
+    parse_mark_in_progress.add_argument("id", type=int, help="task id")
+    parse_mark_in_progress.set_defaults(func=mark_task)
+
+    parse_mark_done = subparsers.add_parser("mark-done", help="")
+    parse_mark_done.add_argument("id", type=int, help="task_id")
+    parse_mark_done.set_defaults(func=mark_task)
 
     args = parser.parse_args()
     args.func(args)

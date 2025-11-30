@@ -2,7 +2,7 @@
   {
     "id": 1,
     "description": "My updated task",
-    "status": "todo",
+    "status": "done",
     "createdAt": "2025-11-23 20:14:48",
     "updatedAt": "2025-11-23 20:14:48",
     "text": "My updated task"
@@ -10,14 +10,14 @@
   {
     "id": 2,
     "description": "New Task adadad",
-    "status": "todo",
+    "status": "in-progress",
     "createdAt": "2025-11-23 20:14:50",
     "updatedAt": "2025-11-23 20:14:50"
   },
   {
     "id": 3,
     "description": "New Task adadad",
-    "status": "todo",
+    "status": "done",
     "createdAt": "2025-11-23 20:14:51",
     "updatedAt": "2025-11-23 20:14:51"
   },
